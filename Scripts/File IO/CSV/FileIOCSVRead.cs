@@ -19,15 +19,14 @@ public class FileIOCSVRead : MonoBehaviour
         {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             // CSV 파일의 전체 내용을 읽기
-            // string csvData = File.ReadAllText(CSV_Reader_Processor.FilePath);
             File.ReadAllText(CSV_Reader_Processor.FilePath);
      
             stopwatch.Stop();
             Debug.Log($"File ReadAllText 읽기 완료! 시간: {stopwatch.ElapsedMilliseconds}ms");
             TestCaseFileInfo.TestTimer.Add(stopwatch.ElapsedMilliseconds);
             
-            // CSV 파싱
-            //CSVDataGenerator.ParseCSV(csvData, _testData);
+            // 데이터 소비(옵션)...
+            
             _testData = null;
         }
         catch (IOException ex)
@@ -45,18 +44,14 @@ public class FileIOCSVRead : MonoBehaviour
         {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             // CSV 파일 전체를 바이트 배열로 읽기
-            // byte[] fileBytes = File.ReadAllBytes(CSV_Reader_Processor.FilePath);
             File.ReadAllBytes(CSV_Reader_Processor.FilePath);
 
             stopwatch.Stop();
             Debug.Log($"File ReadAllBytes 읽기 완료! 시간: {stopwatch.ElapsedMilliseconds}ms");
             TestCaseFileInfo.TestTimer.Add(stopwatch.ElapsedMilliseconds);
             
-            // UTF-8 인코딩을 사용하여 문자열로 변환
-          //  string csvData = Encoding.UTF8.GetString(fileBytes);
+            // 데이터 소비(옵션)...
             
-            // CSV 파싱
-            //CSVDataGenerator.ParseCSV(csvData, _testData);
             _testData = null;
         }
         catch (IOException ex)
@@ -71,19 +66,15 @@ public class FileIOCSVRead : MonoBehaviour
         try
         { 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            // 파일의 모든 줄을 읽어서 문자열 배열로 반환 (UTF8 인코딩 사용)
-           // string[] lines = File.ReadAllLines(CSV_Reader_Processor.FilePath, Encoding.UTF8);
-           File.ReadAllLines(CSV_Reader_Processor.FilePath);
+            // 파일의 모든 줄을 읽기
+            File.ReadAllLines(CSV_Reader_Processor.FilePath);
 
             stopwatch.Stop();
             Debug.Log($"File ReadAllLines 읽기 완료! 시간: {stopwatch.ElapsedMilliseconds}ms");
             TestCaseFileInfo.TestTimer.Add(stopwatch.ElapsedMilliseconds);
+
+            // 데이터 소비(옵션)...
             
-            // 전체 파일 내용을 하나의 문자열로 합치기 (필요한 경우)  ----------------------- !!! Test Case에 예외 !!!
-         //   string csvData = string.Join("\n", lines);
-            
-            // CSV 파싱
-            //CSVDataGenerator.ParseCSV(csvData, _testData);
             _testData = null;
         }
         catch (IOException ex)
@@ -97,25 +88,17 @@ public class FileIOCSVRead : MonoBehaviour
     {
         try
         {
-           
-            StringBuilder stringBuilder = new StringBuilder(); // !!!!!!!!!!!!!!!!!!!!!!!!
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-
-            // File.ReadLines는 파일의 각 줄을 순차적으로 열거합니다.
+            //  파일의 각 줄을 순차적으로 문자열로 반환
             foreach (string line in File.ReadLines(CSV_Reader_Processor.FilePath, Encoding.UTF8))
             {
-                //stringBuilder.AppendLine(line);
+                // 데이터 소비(옵션)...
             }
             
             stopwatch.Stop();
             Debug.Log($"File ReadLines 읽기 완료! 시간: {stopwatch.ElapsedMilliseconds}ms");
             TestCaseFileInfo.TestTimer.Add(stopwatch.ElapsedMilliseconds);
             
-            // 최종적으로 모든 줄을 합쳐 하나의 문자열로 생성
-          //  string csvData = stringBuilder.ToString();
-            
-            // CSV 파싱
-            //CSVDataGenerator.ParseCSV(csvData, _testData);
             _testData = null;
         }
         catch (IOException ex)
@@ -165,7 +148,7 @@ public class FileIOCSVRead : MonoBehaviour
         try
         {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            // CSV 파일 전체를 바이트 배열로 읽어옵니다.
+            // CSV 파일 전체를 바이트 배열로 읽기
             byte[] fileBytes = File.ReadAllBytes(CSV_Reader_Processor.FilePath);
             
             for (int i = 0; i < CSV_Reader_Processor.targetLineOffest.Length; i++)
@@ -193,6 +176,7 @@ public class FileIOCSVRead : MonoBehaviour
                         break;
                     }
                 }
+                // 바이트 값 문자열로 디코딩
                 string resultLine = Encoding.UTF8.GetString(fileBytes, targetOffset, endOffset - targetOffset).Trim();
             }
 
@@ -217,7 +201,7 @@ public class FileIOCSVRead : MonoBehaviour
 
             for (int i = 0; i < CSV_Reader_Processor.targetLineIndex.Length; i++)
             {
-                // 파일의 모든 줄을 읽어서 문자열 배열로 반환 (UTF8 인코딩 사용)
+                // 파일의 모든 줄을 읽어서 문자열 배열로 반환 (UTF8 디코딩 사용)
                 string[] lines = File.ReadAllLines(CSV_Reader_Processor.FilePath, Encoding.UTF8);
                 string resultLine = lines[CSV_Reader_Processor.targetLineIndex[i]];
             }
@@ -241,6 +225,7 @@ public class FileIOCSVRead : MonoBehaviour
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < CSV_Reader_Processor.targetLineIndex.Length; i++)
             {
+                // 파일의 모든 줄을 읽어서 문자열 배열로 반환 (UTF8 디코딩 사용)
                 string[] lines = File.ReadLines(CSV_Reader_Processor.FilePath, Encoding.UTF8).ToArray();
                 string resultLine = lines[CSV_Reader_Processor.targetLineIndex[i]];
             }
@@ -268,6 +253,7 @@ public class FileIOCSVRead : MonoBehaviour
         using (StreamReader reader = new StreamReader(CSV_Reader_Processor.FilePath, Encoding.UTF8, true, TestCaseFileInfo.BufferSize))
         {
             reader.ReadToEnd();
+            // 데이터 소비(옵션)...
         }
         stopwatch.Stop();
         TestCaseFileInfo.TestTimer.Add(stopwatch.ElapsedMilliseconds);
@@ -287,7 +273,7 @@ public class FileIOCSVRead : MonoBehaviour
         {
             while (fs.Read(buffer, 0, bufferSize) > 0)
             {
-    
+                // 데이터 소비(옵션)...
             }
         }
     
@@ -305,14 +291,12 @@ public class FileIOCSVRead : MonoBehaviour
         // !!! FileStream 이용 !!!
         using (BinaryReader reader = new BinaryReader(File.Open(CSV_Reader_Processor.FilePath, FileMode.Open)))
         {
-            // byte[] fileBytes = reader.ReadBytes((int)reader.BaseStream.Length);
             reader.ReadBytes((int)reader.BaseStream.Length);
+            // 데이터 소비(옵션)...
 
             stopwatch.Stop();
             TestCaseFileInfo.TestTimer.Add(stopwatch.ElapsedMilliseconds);
             Debug.Log($"BinaryReader로 파일 읽기 완료! 시간: {stopwatch.ElapsedMilliseconds}ms");
-            
-         //   string csvData = Encoding.UTF8.GetString(fileBytes);
         }
     }
     
@@ -344,23 +328,23 @@ public class FileIOCSVRead : MonoBehaviour
     [ContextMenu("(FileStream) CSV 파일 읽기 - Random Access")]
     public void FileStreamReaderCSVFile_RandomAccess()
     {
-        // 고정 버퍼 크기 (예: 1024바이트)를 사용해 데이터를 읽습니다.
+        // 고정 버퍼 크기 설정
         int bufferSize = 1024;
         byte[] buffer = new byte[bufferSize];
         
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
         for (int i = 0; i < CSV_Reader_Processor.targetLineOffest.Length; i++)
         {
-            // FileStream을 이용해 파일을 읽습니다.
+            // FileStream을 이용해 파일을 읽기
             using (FileStream fs = new FileStream(CSV_Reader_Processor.FilePath, FileMode.Open, FileAccess.Read))
             {
-                // FileStream의 Seek를 사용해 해당 바이트 오프셋으로 이동합니다.
+                // FileStream의 Seek를 사용해 해당 바이트 오프셋으로 파일 포인터 이동
                 fs.Seek(CSV_Reader_Processor.targetLineOffest[i], SeekOrigin.Begin);
                 int bytesRead = fs.Read(buffer, 0, bufferSize);
-                // 읽은 바이트 배열을 UTF8 문자열로 변환합니다.
+                // 읽은 바이트 배열을 UTF8 문자열로 디코딩
                 string resultLine = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 
-                // 해당 행의 끝(줄바꿈 문자)를 찾습니다.
+                // 해당 행의 끝(줄바꿈 문자)를 찾기
                 int newlineIndex = resultLine.IndexOf('\n');
                 if (newlineIndex >= 0)
                     resultLine = resultLine.Substring(0, newlineIndex);
@@ -383,18 +367,18 @@ public class FileIOCSVRead : MonoBehaviour
 
         for (int i = 0; i < CSV_Reader_Processor.targetLineOffest.Length; i++)
         {
-            // !!! FileStream 이용 !!!
+            // FileStream을 이용해 파일을 읽기
             using (BinaryReader reader = new BinaryReader(File.Open(CSV_Reader_Processor.FilePath, FileMode.Open)))
             {
                 reader.BaseStream.Seek(CSV_Reader_Processor.targetLineOffest[i], SeekOrigin.Begin);
-                // 대상 행의 데이터를 읽기 위해 한 줄(줄바꿈 문자 전까지)의 바이트들을 누적합니다.
+                // 대상 행의 데이터를 읽기 위해 한 줄(줄바꿈 문자 전까지)의 바이트들 누적
                 List<byte> lineBytes = new List<byte>();
                 while (true)
                 {
                     try
                     {
                         byte currentByte = reader.ReadByte();
-                        // 줄바꿈 문자를 만나면 해당 행의 읽기를 종료합니다.
+                        // 줄바꿈 문자를 만나면 해당 행의 읽기 종료
                         if (currentByte == (byte)'\n') break;
                         lineBytes.Add(currentByte);
                     }
@@ -404,12 +388,10 @@ public class FileIOCSVRead : MonoBehaviour
                         break;
                     }
                 }
-                
-                // 누적된 바이트를 UTF8 인코딩으로 문자열로 변환합니다.
+                // 누적된 바이트를 UTF8 디코딩 후 문자열로 반환
                 string resultLine = Encoding.UTF8.GetString(lineBytes.ToArray()).Trim();
             }
         }
-        
         stopwatch.Stop();
         TestCaseFileInfo.TestTimer.Add(stopwatch.ElapsedMilliseconds);
         Debug.Log($"BinaryReader로 파일 읽기 완료! 시간: {stopwatch.ElapsedMilliseconds}ms");

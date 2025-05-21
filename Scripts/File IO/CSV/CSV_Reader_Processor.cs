@@ -104,7 +104,7 @@ public class CSV_Reader_Processor : MonoBehaviour
                                         $"System.IO.FileStream (Buffet Size = { TestCaseFileInfo.BufferSize })",
                                         $"System.IO.BinaryReaderWithFileStream");
 
-
+                // ----------- 실험 횟수 만큼 반복 -----------
               for (int i = 0; i < testCount; i++)
               {
                            
@@ -173,6 +173,7 @@ public class CSV_Reader_Processor : MonoBehaviour
 
             BuildLineIndex();
             
+            // ----------- 실험 횟수 만큼 반복 -----------
             for (int i = 0; i < testCount; i++)
             {
                            
@@ -216,14 +217,14 @@ public class CSV_Reader_Processor : MonoBehaviour
         
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
         
-        // 파일 전체를 바이트 배열로 읽어옴.
+        // 파일 전체를 바이트 배열로 읽기
         byte[] fileBytes = File.ReadAllBytes(FilePath);
 
         List<long> lineOffsets = new List<long>();
         // 첫 행의 시작은 0
         lineOffsets.Add(0);
 
-        // 파일 전체를 순회하면서 줄바꿈('\n') 문자를 찾습니다.
+        // 파일 전체를 순회하면서 줄바꿈('\n') 문자를 찾기
         for (int i = 0; i < fileBytes.Length; i++)
         {
             if (fileBytes[i] == (byte)'\n')
